@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans min-h-screen">
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-6 shadow-md">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-3xl font-bold">Library Management System</h1>
+        <nav>
+          <a href="/" class="text-white text-lg mx-4 hover:text-blue-200"
+            >Home</a
+          >
+          <a
+            href="/register"
+            class="text-white text-lg mx-4 hover:text-blue-200"
+            >Register</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="flex items-center justify-center bg-gray-100">
+      <!-- Login Form Container -->
+      <div class="w-full max-w-sm bg-white shadow-lg rounded-lg p-8">
+        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">
+          Login
+        </h2>
+        <form action="/login" method="POST" class="space-y-4">
+          <!-- Email Input -->
+          <div class="flex flex-col">
+            <label for="email" class="text-gray-600">Email:</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Password Input -->
+          <div class="flex flex-col">
+            <label for="password" class="text-gray-600">Password:</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              required
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

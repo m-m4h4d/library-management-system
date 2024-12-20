@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans min-h-screen">
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-6 shadow-md">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-3xl font-bold">Library Management System</h1>
+        <nav>
+          <a
+            href="/dashboard"
+            class="text-white text-lg mx-4 hover:text-blue-200"
+            >Dashboard</a
+          >
+          <a href="/books" class="text-white text-lg mx-4 hover:text-blue-200"
+            >All Books</a
+          >
+          <a href="/logout" class="text-white text-lg mx-4 hover:text-blue-200"
+            >Logout</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="flex items-center justify-center bg-gray-100">
+      <div class="p-4">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+          Your Borrowed Books
+        </h2>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full border border-gray-300 rounded-lg shadow-sm">
+            <thead class="bg-blue-600 text-white">
+              <tr>
+                <th class="px-4 py-2 text-left text-sm font-semibold">Title</th>
+                <th class="px-4 py-2 text-left text-sm font-semibold">
+                  Author
+                </th>
+                <th class="px-4 py-2 text-left text-sm font-semibold">Genre</th>
+                <th class="px-4 py-2 text-left text-sm font-semibold">Year</th>
+                <th class="px-4 py-2 text-left text-sm font-semibold">
+                  Your Status
+                </th>
+                <th class="px-4 py-2 text-left text-sm font-semibold">
+                  Borrow Date
+                </th>
+                <th class="px-4 py-2 text-left text-sm font-semibold">
+                  Return Date
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% books.forEach((book) => { %>
+              <tr class="hover:bg-gray-100">
+                <td class="px-4 py-2 text-sm text-gray-800">
+                  <%= book.title %>
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-800">
+                  <%= book.author %>
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-800">
+                  <%= book.genre %>
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-800">
+                  <%= book.year %>
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-800">
+                  <span
+                    class="<%= book.status === 'borrowed' ? 'text-red-500' : 'text-green-500' %> font-medium"
+                  >
+                    <%= book.status %>
+                  </span>
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-800">
+                  <%= book.borrow_date.toLocaleDateString('en-GB') %>
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-800">
+                  <%= book.return_date ?
+                  book.return_date.toLocaleDateString('en-GB') : 'N/A' %>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

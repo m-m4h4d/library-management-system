@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Import Books</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  </head>
+  <body>
+    <h1>Import Books</h1>
+    <input type="file" id="csvFile" accept=".csv" />
+    <button onclick="uploadCSV()">Show and Upload CSV</button>
+
+    <!-- Table to show the CSV data -->
+    <h2>CSV Data Preview</h2>
+    <table id="csvTable" border="1">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Genre</th>
+          <th>Year</th>
+          <th>Available</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <button id="submitButton" style="display: none" onclick="submitData()">
+      Submit Data
+    </button>
+
+    <script>
+      function uploadCSV() {
+        const fileInput = document.getElementById('csvFile');
+        const file = fileInput.files[0];
+        if (!file) {
+          alert('Please select a CSV file.');
+          return;
+        }
+
+        // Use PapaParse to parse the CSV file
+        Papa.parse(file, {
+          complete: function (result) {
+            console.log('Parsed CSV:', result.data);
+            displayCSVData(result.data);
+          },
+          header: true, // Assuming the first row contains headers
+          skipEmptyLines: true,
+        });
+      }
+
+      // Function to display the parsed CSV data in a table
+      function displayCSVData(data) {
+        const tableBody = document
+          .getElementById('csvTable')
+          .getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; // Clear the table before inserting new data
+
+        data.forEach((row, index) => {
+          const rowElement = document.createElement('tr');
+
+          // Create table cells for each column in the row
+          Object.values(row).forEach((value) => {
+            const cell = document.createElement('td');
+            cell.textContent = value;
+            rowElement.appendChild(cell);
+          });
+
+          tableBody.appendChild(rowElement);
+        });
+
+        // Show the submit button
+        document.getElementById('submitButton').style.display = 'inline';
+      }
+
+      // Function to submit the data to the server
+      function submitData() {
+        const fileInput = document.getElementById('csvFile');
+        const file = fileInput.files[0];
+
+        // Use PapaParse to parse the CSV file again for submission
+        Papa.parse(file, {
+          complete: function (result) {
+            sendDataToServer(result.data);
+          },
+          header: true,
+          skipEmptyLines: true,
+        });
+      }
+
+      // Send the parsed data to the server
+      function sendDataToServer(data) {
+        fetch('/books/import', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert('Books imported successfully');
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+    </script>
+  </body>
+</html>

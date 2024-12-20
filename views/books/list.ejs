@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans min-h-screen">
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-6 shadow-md">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-3xl font-bold">Library Management System</h1>
+        <nav>
+          <a
+            href="/dashboard"
+            class="text-white text-lg mx-4 hover:text-blue-200"
+            >Dashboard</a
+          >
+          <a
+            href="/books/borrowed"
+            class="text-white text-lg mx-4 hover:text-blue-200"
+            >Borrowed Books</a
+          >
+          <a href="/logout" class="text-white text-lg mx-4 hover:text-blue-200"
+            >Logout</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="flex items-center justify-center bg-gray-100">
+      <div class="p-4">
+        <div class="mb-4 flex justify-between items-center">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-4">Books List</h2>
+
+          <!-- Search Bar -->
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by title, author, genre or status"
+            class="border border-gray-300 rounded px-4 py-2 w-full max-w-md"
+            onkeyup="filterBooks()"
+          />
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full border border-gray-300 rounded-lg shadow-sm">
+            <thead class="bg-blue-600 text-white">
+              <tr>
+                <th class="px-4 py-2 text-left text-base font-semibold">
+                  Title
+                </th>
+                <th class="px-4 py-2 text-left text-base font-semibold">
+                  Author
+                </th>
+                <th class="px-4 py-2 text-left text-base font-semibold">
+                  Genre
+                </th>
+                <th class="px-4 py-2 text-left text-base font-semibold">
+                  Year
+                </th>
+                <th class="px-4 py-2 text-left text-base font-semibold">
+                  Status
+                </th>
+                <% if (user?.role === 'admin') { %>
+                <th class="px-4 py-2 text-left text-base font-semibold">
+                  Action
+                </th>
+                <% } %>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% books.forEach((book) => { %>
+              <tr class="hover:bg-gray-100">
+                <td class="px-4 py-2 text-base text-gray-800">
+                  <%= book.title %>
+                </td>
+                <td class="px-4 py-2 text-base text-gray-800">
+                  <%= book.author %>
+                </td>
+                <td class="px-4 py-2 text-base text-gray-800">
+                  <%= book.genre %>
+                </td>
+                <td class="px-4 py-2 text-base text-gray-800">
+                  <%= book.year %>
+                </td>
+                <td class="px-4 py-2 text-base">
+                  <span
+                    class="<%= book.available ? 'text-green-500' : 'text-red-500' %> font-medium"
+                  >
+                    <%= book.available ? 'Available' : 'Borrowed' %>
+                  </span>
+                </td>
+                <% if (user?.role === 'admin') { %>
+                <td class="px-4 py-2">
+                  <% const action = book.available ? 'borrow' : 'return' %>
+                  <button
+                    onclick="openPopup('<%= book.id %>', '<%= action %>')"
+                    class="<%= book.available ? 'bg-blue-500' : 'bg-green-500' %> text-white px-3 py-1 rounded hover:opacity-80 transition"
+                  >
+                    <%= book.available ? 'Borrow' : 'Return' %>
+                  </button>
+
+                  <a
+                    href="/books/edit/<%= book.id %>"
+                    onclick="return confirmEditDelete()"
+                    class="text-base text-blue-500 hover:underline mx-2"
+                  >
+                    Edit
+                  </a>
+                  <a
+                    href="/books/delete/<%= book.id %>"
+                    onclick="return confirmEditDelete()"
+                    class="text-base text-red-500 hover:underline mx-2"
+                  >
+                    Delete
+                  </a>
+                </td>
+                <% } %>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Popup Modal -->
+    <div
+      id="popup-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
+    >
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h2
+          id="modal-title"
+          class="text-xl font-semibold text-gray-800 mb-4"
+        ></h2>
+        <form id="modal-form" method="POST" class="space-y-2">
+          <input
+            type="text"
+            id="userId"
+            name="userId"
+            placeholder="User ID"
+            class="border border-gray-300 rounded px-2 py-1 text-sm w-full"
+            required
+          />
+          <input
+            type="text"
+            id="userName"
+            name="userName"
+            placeholder="User Name"
+            class="border border-gray-300 rounded px-2 py-1 text-sm w-full"
+            required
+          />
+          <button
+            type="submit"
+            class="w-full bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+          >
+            Submit
+          </button>
+        </form>
+        <button
+          onclick="closePopup()"
+          class="mt-4 w-full bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function filterBooks() {
+        const searchInput = document
+          .getElementById('searchInput')
+          .value.toLowerCase();
+        const tableRows = document.querySelectorAll('tbody tr');
+
+        tableRows.forEach((row) => {
+          const title = row
+            .querySelector('td:nth-child(1)')
+            .textContent.toLowerCase();
+          const author = row
+            .querySelector('td:nth-child(2)')
+            .textContent.toLowerCase();
+          const genre = row
+            .querySelector('td:nth-child(3)')
+            .textContent.toLowerCase();
+          const status = row
+            .querySelector('td:nth-child(5)')
+            .textContent.toLowerCase();
+
+          if (
+            title.includes(searchInput) ||
+            author.includes(searchInput) ||
+            genre.includes(searchInput) ||
+            status.includes(searchInput)
+          ) {
+            row.style.display = ''; // Show the row
+          } else {
+            row.style.display = 'none'; // Hide the row
+          }
+        });
+      }
+    </script>
+
+    <% if(user?.role === 'admin'){ %>
+
+    <script>
+      function openPopup(bookId, action) {
+        // Set the form action dynamically
+        const form = document.getElementById('modal-form');
+        form.action = `/books/${action}/${bookId}`;
+
+        // Set the modal title
+        const title = document.getElementById('modal-title');
+        title.textContent = action === 'borrow' ? 'Borrow Book' : 'Return Book';
+
+        // Show the modal
+        const modal = document.getElementById('popup-modal');
+        modal.classList.remove('hidden');
+      }
+
+      function closePopup() {
+        // Hide the modal
+        const modal = document.getElementById('popup-modal');
+        modal.classList.add('hidden');
+      }
+
+      // Add an event listener to close modal on clicking outside the popup content
+      document
+        .getElementById('popup-modal')
+        .addEventListener('click', function (event) {
+          const modalContent = document.querySelector('#popup-modal > div');
+          if (!modalContent.contains(event.target)) {
+            closePopup();
+          }
+        });
+
+      // CONFIRM EDIT OR DELETE
+      function confirmEditDelete() {
+        if (confirm('Do you want to proceed?')) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    </script>
+    <% } %>
+  </body>
+</html>

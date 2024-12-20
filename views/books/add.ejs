@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans min-h-screen">
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-6 shadow-md">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-3xl font-bold">Library Management System</h1>
+        <nav>
+          <a
+            href="/dashboard"
+            class="text-white text-lg mx-4 hover:text-blue-200"
+            >Dashboard</a
+          >
+          <a href="/logout" class="text-white text-lg mx-4 hover:text-blue-200"
+            >Logout</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="flex items-center justify-center bg-gray-100">
+      <!-- Form Container -->
+      <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
+        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">
+          Add New Book
+        </h2>
+        <form action="/books/add" method="POST" class="space-y-4">
+          <!-- Title Input -->
+          <div class="flex flex-col">
+            <label for="title" class="text-gray-600">Book Title</label>
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              required
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Author Input -->
+          <div class="flex flex-col">
+            <label for="author" class="text-gray-600">Author</label>
+            <input
+              type="text"
+              name="author"
+              placeholder="Author"
+              required
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Genre Input -->
+          <div class="flex flex-col">
+            <label for="genre" class="text-gray-600">Genre</label>
+            <input
+              type="text"
+              name="genre"
+              placeholder="Genre"
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Year Input -->
+          <div class="flex flex-col">
+            <label for="year" class="text-gray-600">Published Year</label>
+            <input
+              type="number"
+              name="year"
+              placeholder="Published Year"
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Available Checkbox -->
+          <div class="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              name="available"
+              checked
+              class="form-checkbox h-5 w-5 text-blue-500"
+            />
+            <label for="available" class="text-gray-600">Available</label>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Add Book
+          </button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

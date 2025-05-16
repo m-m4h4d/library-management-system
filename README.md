@@ -130,9 +130,8 @@ Contributions are welcome! Please follow the standard GitHub workflow:
 
 ---
 
-## Authors
+## Author
 
-- **Khalil Ahmed**
 - **Aniket Thapa**
 
 ---

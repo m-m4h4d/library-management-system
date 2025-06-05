@@ -35,74 +35,85 @@ A basic web-based Library Management System built using Node.js, Express.js, MyS
 
 ### Steps
 
-1. Clone this repository:
+1.  Clone this repository:
 
-   ```bash
-   git clone https://github.com/aniket-thapa/library-management-system.git
-   cd library-management-system
-   ```
+    ```bash
+    git clone https://github.com/aniket-thapa/library-management-system.git
+    cd library-management-system
+    ```
 
-2. Install dependencies:
+2.  Install dependencies:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
-3. Configure the database:
+3.  Configure the database and `.env` file:
 
-   - Run the following SQL script to set up the database:
+    - Run the following SQL script to set up the database:
 
-     ```sql
-     CREATE DATABASE library_management;
-     USE library_management;
+      ```sql
+      CREATE DATABASE library_management;
+      USE library_management;
 
-     CREATE TABLE books (
-         id INT AUTO_INCREMENT PRIMARY KEY,
-         title VARCHAR(255) NOT NULL,
-         author VARCHAR(255) NOT NULL,
-         genre VARCHAR(100),
-         year INT,
-         available BOOLEAN DEFAULT TRUE,
-         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-     );
+      CREATE TABLE books (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          title VARCHAR(255) NOT NULL,
+          author VARCHAR(255) NOT NULL,
+          genre VARCHAR(100),
+          year INT,
+          available BOOLEAN DEFAULT TRUE,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
 
-     CREATE TABLE users (
-         id INT AUTO_INCREMENT PRIMARY KEY,
-         name VARCHAR(100) NOT NULL,
-         email VARCHAR(100) UNIQUE NOT NULL,
-         password VARCHAR(255) NOT NULL,
-         role ENUM('admin', 'member') DEFAULT 'member'
-     );
+      CREATE TABLE users (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(100) NOT NULL,
+          email VARCHAR(100) UNIQUE NOT NULL,
+          password VARCHAR(255) NOT NULL,
+          role ENUM('admin', 'member') DEFAULT 'member'
+      );
 
-     CREATE TABLE transactions (
-         id INT AUTO_INCREMENT PRIMARY KEY,
-         book_id INT NOT NULL,
-         user_id INT NOT NULL,
-         borrow_date DATE NOT NULL,
-         return_date DATE,
-         status ENUM('borrowed', 'returned') DEFAULT 'borrowed',
-         FOREIGN KEY (book_id) REFERENCES books(id),
-         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-     );
-     ```
+      CREATE TABLE transactions (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          book_id INT NOT NULL,
+          user_id INT NOT NULL,
+          borrow_date DATE NOT NULL,
+          return_date DATE,
+          status ENUM('borrowed', 'returned') DEFAULT 'borrowed',
+          FOREIGN KEY (book_id) REFERENCES books(id),
+          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+      );
+      ```
 
-   - Update `db.js` with your database credentials:
-     ```javascript
-     const pool = mysql.createPool({
-       host: 'your-database-host',
-       user: 'your-database-username',
-       password: 'your-database-password',
-       database: 'library_management',
-     });
-     ```
+    - Update `db.js` with your database credentials:
 
-4. Start the server:
+      ```javascript
+      const pool = mysql.createPool({
+        host: 'your-database-host',
+        user: 'your-database-username',
+        password: 'your-database-password',
+        database: 'library_management',
+      });
+      ```
 
-   ```bash
-   npm start
-   ```
+    - Create `.env` with below data:
 
-5. Access the application in your browser at [http://localhost:3000](http://localhost:3000).
+      ```env
+      DB_HOST=
+      DB_USER=
+      DB_PASSWORD=
+      DB_NAME=
+      DB_PORT=
+      ```
+
+4.  Start the server:
+
+    ```bash
+    npm start
+    ```
+
+5.  Access the application in your browser at [http://localhost:3000](http://localhost:3000).
 
 ---
 
@@ -130,6 +141,12 @@ Contributions are welcome! Please follow the standard GitHub workflow:
 
 ---
 
+## Authors
+
+- **Aniket Thapa**
+
+---
+
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the ISC License. See the [LICENSE](LICENSE) file for details.

@@ -35,20 +35,20 @@ A basic web-based Library Management System built using Node.js, Express.js, MyS
 
 ### Steps
 
-1.  Clone this repository:
+1. Clone this repository:
 
     ```bash
     git clone https://github.com/aniket-thapa/library-management-system.git
     cd library-management-system
     ```
 
-2.  Install dependencies:
+2. Install dependencies:
 
     ```bash
     npm install
     ```
 
-3.  Configure the database and `.env` file:
+3. Configure the database and `.env` file:
 
     - Run the following SQL script to set up the database:
 
@@ -86,17 +86,6 @@ A basic web-based Library Management System built using Node.js, Express.js, MyS
       );
       ```
 
-    - Update `db.js` with your database credentials:
-
-      ```javascript
-      const pool = mysql.createPool({
-        host: 'your-database-host',
-        user: 'your-database-username',
-        password: 'your-database-password',
-        database: 'library_management',
-      });
-      ```
-
     - Create `.env` with below data:
 
       ```env
@@ -107,13 +96,13 @@ A basic web-based Library Management System built using Node.js, Express.js, MyS
       DB_PORT=
       ```
 
-4.  Start the server:
+4. Start the server:
 
     ```bash
     npm start
     ```
 
-5.  Access the application in your browser at [http://localhost:3000](http://localhost:3000).
+5. Access the application in your browser at [http://localhost:3000](http://localhost:3000).
 
 ---
 
@@ -143,7 +132,7 @@ Contributions are welcome! Please follow the standard GitHub workflow:
 
 ## Authors
 
-- **Aniket Thapa**
+- **Muhammad Mahad**
 
 ---
 

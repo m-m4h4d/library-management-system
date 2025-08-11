@@ -1,4 +1,4 @@
-# Library Management System
+# Book - A - Book
 
 A basic web-based Library Management System built using Node.js, Express.js, MySQL, and EJS for templating. This application allows users to manage books, borrow and return books, and provides user roles (admin and member) with varying permissions.
 

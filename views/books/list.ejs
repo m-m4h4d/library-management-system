@@ -94,7 +94,7 @@
                     <%= book.available ? 'Available' : 'Borrowed' %>
                   </span>
                 </td>
-                <% if (user?.role === 'admin') { %>
+                <% if (user?.role === 'member') { %>
                 <td class="px-4 py-2">
                   <% const action = book.available ? 'borrow' : 'return' %>
                   <button
@@ -103,7 +103,9 @@
                   >
                     <%= book.available ? 'Borrow' : 'Return' %>
                   </button>
-
+                </td>
+                <% } else if (user?.role === 'admin') { %>
+                <td class="px-4 py-2">
                   <a
                     href="/books/edit/<%= book.id %>"
                     onclick="return confirmEditDelete()"

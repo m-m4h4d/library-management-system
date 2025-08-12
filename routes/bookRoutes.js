@@ -169,7 +169,6 @@ router.post('/borrow/:bookId', (req, res) => {
   );
 });
 
-// RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 // Return Book Routes
 router.post('/return/:bookId', (req, res) => {
   const bookId = req.params.bookId;
@@ -231,10 +230,6 @@ router.post('/return/:bookId', (req, res) => {
     }
   );
 });
-// RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-
-// *********************************************************************
-// *********************************************************************
 
 // List borrowed books to user
 // Route to fetch all borrowed books for a specific user
@@ -284,9 +279,6 @@ router.get('/borrowed', (req, res) => {
     });
   });
 });
-
-// *********************************************************************
-// *********************************************************************
 
 // Import CSV Books
 router.get('/import', (req, res) => {
